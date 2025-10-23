@@ -27,6 +27,10 @@
 			}
 			.tag::before { content: "<"; }
 			.tag::after  { content: ">"; }
+
+			.thumbnail-content {
+				padding: 1em;
+			}
 		</style>
 	</head>
 	<body>
@@ -34,10 +38,20 @@
 		<p>systems programming</p>
 
 		<div class="thumbnail" style="background-image: url('./thumbnails/bens-beams.png');">
-			<span class="tag">rust</span>
-			<span class="tag">wasm</span>
-			<span class="tag">gamedev</span>
-			<p>ben's beams</p>
+			<div class="thumbnail-content">
+				<span class="tag">rust</span>
+				<span class="tag">wasm</span>
+				<span class="tag">gamedev</span>
+				<p>ben's beams</p>
+			</div>
+		</div>
+		<div class="thumbnail" style="background-image: url('./thumbnails/arachno-drome.png');">
+			<div class="thumbnail-content">
+				<span class="tag">godot</span>
+				<span class="tag">gamedev</span>
+				<span class="tag">collaborative</span>
+				<p>Arachno Drome</p>
+			</div>
 		</div>
 	</body>
 </html>
