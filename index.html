@@ -39,8 +39,12 @@
 				box-sizing: border-box;
 			}
 
-			.call {
-
+			a.call, a.call:visited {
+				text-decoration: none;
+				color: #eee;
+			}
+			a.call:hover {
+				text-decoration: underline;
 			}
 			.call::before { content: "["; }
 			.call::after  { content: "]"; }
@@ -61,8 +65,8 @@
 
 				<div class="call-container">
 					<a class="call">about</a>
-					<a class="call">play</a>
-					<a class="call">source code</a>
+					<a class="call" href="https://some-games-by-bee.itch.io/bens-beams">play</a>
+					<a class="call" href="https://github.com/yourname3/jamfest-2025">source code</a>
 				</div>
 			</div>
 		</div>
