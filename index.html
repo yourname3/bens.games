@@ -46,8 +46,10 @@
 			a.call:hover {
 				text-decoration: underline;
 			}
-			.call::before { content: "["; }
-			.call::after  { content: "]"; }
+			.call::before { content: "["; color: #aaa; }
+			.call::after  { content: "]"; color: #aaa; }
+			a.call:hover::before { color: #eee; }
+			a.call:hover::after  { color: #eee; }
 		</style>
 	</head>
 	<body>
