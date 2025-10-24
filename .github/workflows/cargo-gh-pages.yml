@@ -31,7 +31,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Build site
-        run: cargo build
+        run: cargo run
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
