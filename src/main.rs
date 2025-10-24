@@ -76,7 +76,6 @@ fn build_thumbnail(project: &Project) -> PreEscaped<String> {
 }
 
 fn build_portfolio(projects: &Vec<Project>) -> PreEscaped<String> {
-    
     html! {
         html {
             head {
@@ -110,6 +109,7 @@ fn build_portfolio(projects: &Vec<Project>) -> PreEscaped<String> {
                     }
                 }
             }
+            script src="./portfolio.js" {}
         }
     }
 }
@@ -127,6 +127,7 @@ fn main() {
     fs::write("./dist/index.html", &portfolio.0).unwrap();
 
     fs::copy("./portfolio.css", "./dist/portfolio.css").unwrap();
+    fs::copy("./portfolio.js", "./dist/portfolio.js").unwrap();
     for project in &projects {
         let id = project.id_str;
         fs::copy(format!("./thumbnails/{id}.png"), format!("./dist/thumbnails/{id}.png")).unwrap();
