@@ -16,6 +16,7 @@ struct Project {
     front: ProjectFrontMatter,
 
     image_link: String,
+    video_link: Option<String>,
     about_html: PreEscaped<String>,
 }
 
@@ -49,11 +50,19 @@ fn parse_project<P: AsRef<Path>>(file_path: P) -> Project {
     pulldown_cmark::html::push_html(&mut html, parser);
 
     let md_name = file_path.as_ref().file_stem().unwrap().to_string_lossy().to_string();
-    let image_link = format!("./portfolio/{}.png", md_name.split_once('-').unwrap().1);
+    let project_id = md_name.split_once('-').unwrap().1;
+
+    let image_link = format!("./portfolio/{}.png", project_id);
+    let video_link = format!("./portfolio/{}.mp4", project_id);
+    let video_link = match fs::exists(&video_link) {
+        Ok(true) => Some(video_link),
+        _ => None
+    };
 
     Project {
         front: result.data.unwrap(),
         image_link,
+        video_link,
         about_html: PreEscaped(html)
     }
 }
@@ -94,6 +103,19 @@ fn build_thumbnail(project: &Project) -> PreEscaped<String> {
                         " " a.call href=(url) { (name) }
                     }
                 }
+            }
+            @match &project.video_link {
+                Some(link) => {
+                    video .thumbnail-video
+                        data-src=(link)
+                        preload="none"
+                        poster=(project.image_link)
+                        muted
+                        loop
+                        autoplay
+                    { }
+                }
+                None => {}
             }
             .thumbnail-about-bg {}
         }
@@ -143,5 +165,9 @@ fn main() {
     for project in &projects {
         let path = &project.image_link;
         fs::copy(format!("{path}"), format!("./dist/{path}")).unwrap();
+
+        if let Some(path) = &project.video_link {
+            fs::copy(path, format!("./dist/{path}")).unwrap();
+        }
     }
 }
