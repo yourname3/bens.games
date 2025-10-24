@@ -32,6 +32,8 @@
 			.thumbnail > * {
 				position: relative;
 				z-index: 1;
+
+				overflow: hidden;
 			}
 
 			.title {
@@ -79,13 +81,20 @@
 			}
 
 			.thumbnail-about {
-				color: transparent;
+				opacity: 0;
+				/* slide in from bottom */
+				transform: translateY(100%);
 				transition: all 0.5s ease;
+
+				pointer-events: none;
 			}
 
 			.thumbnail-about.active {
-				/* height: 100%; */
-				color: inherit;
+				opacity: 1;
+				margin-top: 0px;
+				transform: translateY(0);
+
+				pointer-events: auto;
 			}
 
 			a.call, a.call:visited {
