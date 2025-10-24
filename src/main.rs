@@ -52,7 +52,7 @@ fn build_thumbnail(project: &Project) -> PreEscaped<String> {
                 .thumbnail-row {
                     span .title { (project.title) }
                     @for tag in &project.tags {
-                        span .tag { (tag) }
+                        " " span .tag { (tag) }
                     }
                 }
                 .thumbnail-about {
@@ -61,11 +61,11 @@ fn build_thumbnail(project: &Project) -> PreEscaped<String> {
                 .thumbnail-row {
                     a .call .about href="#" { "about" }
                     @match project.play_link {
-                        Some(link) => { a .call href=(link) { "play" } }
+                        Some(link) => { " " a .call href=(link) { "play" } }
                         None => {}
                     }
                     @match project.source_link {
-                        Some(link) => { a .call href=(link) { "source code" } }
+                        Some(link) => { " " a .call href=(link) { "source code" } }
                         None => {}
                     }
                 }
