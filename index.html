@@ -58,6 +58,11 @@
 				box-sizing: border-box;
 			}
 
+			.thumbnail-row {
+				backdrop-filter: blur(40px);
+				-webkit-backdrop-filter: blur(40px);
+			}
+
 			a.call, a.call:visited {
 				text-decoration: none;
 				color: #eee;
@@ -77,14 +82,14 @@
 
 		<div class="thumbnail" style="background-image: url('./thumbnails/bens-beams.png');">
 			<div class="thumbnail-content">
-				<div>
+				<div class="thumbnail-row">
 					<span class="title">ben's beams</span>
 					<span class="tag">rust</span>
 					<span class="tag">wasm</span>
 					<span class="tag">gamedev</span>
 				</div>
 
-				<div class="call-container">
+				<div class="thumbnail-row">
 					<a class="call">about</a>
 					<a class="call" href="https://some-games-by-bee.itch.io/bens-beams">play</a>
 					<a class="call" href="https://github.com/yourname3/jamfest-2025">source code</a>
@@ -93,14 +98,14 @@
 		</div>
 		<div class="thumbnail" style="background-image: url('./thumbnails/arachno-drome.png');">
 			<div class="thumbnail-content">
-				<div>
+				<div class="thumbnail-row">
 					<span class="title">Arachno Drome</span>
 					<span class="tag">godot</span>
 					<span class="tag">gamedev</span>
 					<span class="tag">collaborative</span>
 				</div>
 
-				<div class="call-container">
+				<div class="thumbnail-row">
 					<a class="call">about</a>
 					<a class="call">play</a>
 				</div>
