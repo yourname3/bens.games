@@ -56,17 +56,34 @@
 
 				height: 100%;
 				box-sizing: border-box;
+
+				z-index: 2;
 			}
 
 			.thumbnail-row {}
 
+			.thumbnail-about-bg {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				bottom: 0px;
+				right: 0px;
+				z-index: 1;
+				transition: all 0.5s ease;
+
+				backdrop-filter: none;
+			}
+
+			.thumbnail-about-bg.active {
+				backdrop-filter: blur(1em) brightness(0.5);
+			}
+
 			.thumbnail-about {
-				/* height: 0%; */
 				color: transparent;
 				transition: all 0.5s ease;
 			}
 
-			.thumbnail-about.thumbnail-about-visible {
+			.thumbnail-about.active {
 				/* height: 100%; */
 				color: inherit;
 			}
@@ -83,6 +100,24 @@
 			a.call:hover::before { color: #eee; }
 			a.call:hover::after  { color: #eee; }
 		</style>
+		<script>
+			document.addEventListener('DOMContentLoaded', () => {
+				document.querySelectorAll('.call.about').forEach(aboutToggle => {
+					aboutToggle.addEventListener('click', (event) => {
+						event.preventDefault();
+
+						const thumbnail = aboutToggle.closest('.thumbnail');
+						if (!thumbnail) return;
+
+						const about = thumbnail.querySelector('.thumbnail-about');
+						const bg = thumbnail.querySelector('.thumbnail-about-bg');
+
+						about?.classList.toggle('active');
+						bg?.classList.toggle('active');
+					});
+				});
+			});
+		</script>
 	</head>
 	<body>
 		<p><b>benjamin wall</b></p>
@@ -98,20 +133,25 @@
 				</div>
 
 				<div class="thumbnail-about">
-					ben's beams is a short puzzle game made for the JamFest game
-					jam at GMU.
-
-					I used it as a prototype for the Rust game development
-					technologies I am working on. The game involves a WebGPU
-					renderer that supports 3D meshes with PBR lighting (and IBL).
+					<p>
+						ben's beams is a short puzzle game made for the JamFest game
+						jam at GMU.
+					</p>
+					<p>
+						I used it as a prototype for the Rust game development
+						technologies I am working on. The game involves a WebGPU
+						renderer that supports 3D meshes with PBR lighting (and IBL).
+					</p>
 				</div>
 
 				<div class="thumbnail-row">
-					<a class="call">about</a>
+					<a class="call about">about</a>
 					<a class="call" href="https://some-games-by-bee.itch.io/bens-beams">play</a>
 					<a class="call" href="https://github.com/yourname3/jamfest-2025">source code</a>
 				</div>
 			</div>
+
+			<div class="thumbnail-about-bg"></div>
 		</div>
 		<div class="thumbnail" style="background-image: url('./thumbnails/arachno-drome.png');">
 			<div class="thumbnail-content">
@@ -123,10 +163,12 @@
 				</div>
 
 				<div class="thumbnail-row">
-					<a class="call">about</a>
+					<a class="call about">about</a>
 					<a class="call">play</a>
 				</div>
 			</div>
+
+			<div class="thumbnail-about-bg"></div>
 		</div>
 	</body>
 </html>
