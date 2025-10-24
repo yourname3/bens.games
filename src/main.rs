@@ -2,7 +2,6 @@ use std::{collections::HashMap, fs, path::Path};
 
 use gray_matter::{engine::TOML, Matter, ParsedEntity};
 use maud::{html, PreEscaped};
-use path_slash::PathBufExt;
 use serde_derive::Deserialize;
 
 #[derive(Deserialize)]
@@ -39,20 +38,25 @@ fn parse_project<P: AsRef<Path>>(file_path: P) -> Project {
     let mut html = String::new();
     pulldown_cmark::html::push_html(&mut html, parser);
 
-    let image_link = file_path.as_ref().with_extension("png");
+    let md_name = file_path.as_ref().file_stem().unwrap().to_string_lossy().to_string();
+    let image_link = format!("./portfolio/{}.png", md_name.split_once('-').unwrap().1);
 
     Project {
         front: result.data.unwrap(),
-        image_link: image_link.to_slash().unwrap().to_string(),
+        image_link,
         about_html: PreEscaped(html)
     }
 }
 
 fn projects() -> Vec<Project> {
-    vec![
-        parse_project("./portfolio/bens-beams.md"),
-        parse_project("./portfolio/arachno-drome.md"),
-    ]
+    let mut projects = vec![];
+    for entry in fs::read_dir("./portfolio").unwrap() {
+        let Ok(entry) = entry else { continue; };
+        if let Some(ext) = entry.path().extension() && ext == "md" {
+            projects.push(parse_project(entry.path()));
+        }
+    }
+    projects
 }
 
 fn build_thumbnail(project: &Project) -> PreEscaped<String> {

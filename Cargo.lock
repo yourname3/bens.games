@@ -8,7 +8,6 @@ version = "0.1.0"
 dependencies = [
  "gray_matter",
  "maud",
- "path-slash",
  "pulldown-cmark",
  "serde",
  "serde_derive",
@@ -87,12 +86,6 @@ name = "memchr"
 version = "2.7.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f52b00d39961fc5b2736ea853c9cc86238e165017a493d1d5c8eac6bdc4cc273"
-
-[[package]]
-name = "path-slash"
-version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e91099d4268b0e11973f036e885d652fb0b21fedcf69738c627f94db6a44f42"
 
 [[package]]
 name = "proc-macro2"
