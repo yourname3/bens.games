@@ -1,4 +1,4 @@
-use std::{fs::{self, File}, io::Write};
+use std::fs;
 
 use maud::{html, PreEscaped};
 
