@@ -113,6 +113,7 @@ fn build_thumbnail(project: &Project) -> PreEscaped<String> {
                         muted
                         loop
                         autoplay
+                        playsinline
                     { }
                 }
                 None => {}
