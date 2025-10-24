@@ -60,6 +60,17 @@
 
 			.thumbnail-row {}
 
+			.thumbnail-about {
+				/* height: 0%; */
+				color: transparent;
+				transition: all 0.5s ease;
+			}
+
+			.thumbnail-about.thumbnail-about-visible {
+				/* height: 100%; */
+				color: inherit;
+			}
+
 			a.call, a.call:visited {
 				text-decoration: none;
 				color: #eee;
@@ -84,6 +95,15 @@
 					<span class="tag">rust</span>
 					<span class="tag">wasm</span>
 					<span class="tag">gamedev</span>
+				</div>
+
+				<div class="thumbnail-about">
+					ben's beams is a short puzzle game made for the JamFest game
+					jam at GMU.
+
+					I used it as a prototype for the Rust game development
+					technologies I am working on. The game involves a WebGPU
+					renderer that supports 3D meshes with PBR lighting (and IBL).
 				</div>
 
 				<div class="thumbnail-row">
