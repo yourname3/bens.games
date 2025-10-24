@@ -39,9 +39,7 @@ fn parse_project<P: AsRef<Path>>(file_path: P) -> Project {
     let mut html = String::new();
     pulldown_cmark::html::push_html(&mut html, parser);
 
-    let image_link = Path::new("./thumbnails")
-        .join(file_path.as_ref().file_stem().unwrap())
-        .with_extension("png");
+    let image_link = file_path.as_ref().with_extension("png");
 
     Project {
         front: result.data.unwrap(),
@@ -125,7 +123,7 @@ fn main() {
     let projects = projects();
 
     fs::create_dir_all("./dist").unwrap();
-    fs::create_dir_all("./dist/thumbnails").unwrap();
+    fs::create_dir_all("./dist/portfolio").unwrap();
 
     let portfolio = build_portfolio(&projects);
     //let mut file = File::create("./dist/index.html").unwrap();
@@ -137,7 +135,6 @@ fn main() {
     fs::copy("./portfolio.js", "./dist/portfolio.js").unwrap();
     for project in &projects {
         let path = &project.image_link;
-        eprintln!("path = {}", path);
         fs::copy(format!("{path}"), format!("./dist/{path}")).unwrap();
     }
 }
