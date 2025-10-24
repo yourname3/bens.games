@@ -19,6 +19,16 @@ struct Project {
     about_html: PreEscaped<String>,
 }
 
+fn markdown<P: AsRef<Path>>(md_path: P) -> PreEscaped<String> {
+    let markdown = fs::read_to_string(md_path).unwrap();
+    let parser = pulldown_cmark::Parser::new(&markdown);
+
+    let mut html = String::new();
+    pulldown_cmark::html::push_html(&mut html, parser);
+
+    PreEscaped(html)
+}
+
 fn parse_project<P: AsRef<Path>>(file_path: P) -> Project {
     let matter = Matter::<TOML>::new();
     let input = fs::read_to_string(&file_path)
@@ -53,6 +63,12 @@ fn projects() -> Vec<Project> {
     for entry in fs::read_dir("./portfolio").unwrap() {
         let Ok(entry) = entry else { continue; };
         if let Some(ext) = entry.path().extension() && ext == "md" {
+            // Only process project files that begin with a numeral.
+            let file_name = entry.path().file_name().unwrap().to_string_lossy().to_string();
+            match file_name.bytes().nth(0) {
+                Some(b'0'..b'9') => {},
+                _ => continue,
+            }
             projects.push(parse_project(entry.path()));
         }
     }
@@ -96,20 +112,7 @@ fn build_portfolio(projects: &Vec<Project>) -> PreEscaped<String> {
                 .header-container {
                     .header {
                         span .title { "benjamin wall" }
-                        span {
-                            // TODO: Figure out a nice way to insert these two spans
-                            // here. Maybe markdown?
-                            "Hello! Welcome to my portfolio. I'm a programmer with
-                            interest in embedded systems, compilers,
-                            game development, and more."
-                        }
-                        span {
-                            "You can see a representative sample of my projects
-                            below. You can sort the projects based on topic using
-                            the tags along the top of each icon, or learn more about
-                            each one by following the links along the bottom of each
-                            one."
-                        }
+                        (markdown("./portfolio/header.md"))
                     }
                 }
                 .thumbnail-container {
