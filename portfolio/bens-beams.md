@@ -1,3 +1,12 @@
+---
+title = "ben's beams"
+tags = ['rust', 'wasm', 'gamedev']
+
+[links]
+'play' = 'https://some-games-by-bee.itch.io/bens-beams'
+'source code' = 'https://github.com/yourname3/jamfest-2025'
+---
+
 ben's beams is a short puzzle game made for the JamFest game
 jam at GMU.
 

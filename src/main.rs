@@ -1,72 +1,79 @@
-use std::fs;
+use std::{collections::HashMap, fs, path::Path};
 
+use gray_matter::{engine::TOML, Matter, ParsedEntity};
 use maud::{html, PreEscaped};
+use path_slash::PathBufExt;
+use serde_derive::Deserialize;
+
+#[derive(Deserialize)]
+struct ProjectFrontMatter {
+    title: String,
+    tags: Vec<String>,
+
+    links: HashMap<String, String>,
+}
 
 struct Project {
-    /// Used to identify relevant files on the filesystem: The markdown for
-    /// the projection description, plus the project thumbnail.
-    id_str: &'static str,
+    front: ProjectFrontMatter,
 
-    title: &'static str,
-    tags: Vec<&'static str>,
-
-    play_link: Option<&'static str>,
-    source_link: Option<&'static str>,
+    image_link: String,
+    about_html: PreEscaped<String>,
 }
 
-fn projects() -> Vec<Project> {
-    vec![
-        Project {
-            id_str: "bens-beams",
-            title: "ben's beams",
-            tags: vec!["rust", "wasm", "gamedev"],
-            play_link: Some("https://some-games-by-bee.itch.io/bens-beams"),
-            source_link: Some("https://github.com/yourname3/jamfest-2025")
-        },
-        Project {
-            id_str: "arachno-drome",
-            title: "Arachno Drome",
-            tags: vec!["godot", "gamedev", "collaborative"],
-            play_link: Some("https://justin1l8.itch.io/arachno-drome"),
-            source_link: None,   
-        }
-    ]
-}
-
-fn build_about(project: &Project) -> PreEscaped<String> {
-    let markdown = fs::read_to_string(format!("./portfolio/{}.md", project.id_str))
+fn parse_project<P: AsRef<Path>>(file_path: P) -> Project {
+    let matter = Matter::<TOML>::new();
+    let input = fs::read_to_string(&file_path)
         .unwrap();
+    let result= matter.parse(&input);
+    let result: ParsedEntity<ProjectFrontMatter> = match result {
+        Ok(r) => r,
+        Err(err) => {
+            eprintln!("Error: {}", err);
+            panic!("Invalid project file");
+        }
+    };
 
-    let parser = pulldown_cmark::Parser::new(&markdown);
+    // Parse the markdown from the content of the file.
+    let parser = pulldown_cmark::Parser::new(&result.content);
 
     let mut html = String::new();
     pulldown_cmark::html::push_html(&mut html, parser);
 
-    PreEscaped(html)
+    let image_link = Path::new("./thumbnails")
+        .join(file_path.as_ref().file_stem().unwrap())
+        .with_extension("png");
+
+    Project {
+        front: result.data.unwrap(),
+        image_link: image_link.to_slash().unwrap().to_string(),
+        about_html: PreEscaped(html)
+    }
+}
+
+fn projects() -> Vec<Project> {
+    vec![
+        parse_project("./portfolio/bens-beams.md"),
+        parse_project("./portfolio/arachno-drome.md"),
+    ]
 }
 
 fn build_thumbnail(project: &Project) -> PreEscaped<String> {
     html! {
-        .thumbnail style=(format!("background-image: url('./thumbnails/{}.png')", project.id_str)) {
+        .thumbnail style=(format!("background-image: url('{}')", project.image_link)) {
             .thumbnail-content {
                 .thumbnail-row {
-                    span .title { (project.title) }
-                    @for tag in &project.tags {
+                    span .title { (project.front.title) }
+                    @for tag in &project.front.tags {
                         " " span .tag { (tag) }
                     }
                 }
                 .thumbnail-about {
-                    (build_about(project))
+                    (project.about_html)
                 }
                 .thumbnail-row {
                     a .call .about href="#" { "about" }
-                    @match project.play_link {
-                        Some(link) => { " " a .call href=(link) { "play" } }
-                        None => {}
-                    }
-                    @match project.source_link {
-                        Some(link) => { " " a .call href=(link) { "source code" } }
-                        None => {}
+                    @for (name, url) in &project.front.links {
+                        " " a.call href=(url) { (name) }
                     }
                 }
             }
@@ -129,7 +136,8 @@ fn main() {
     fs::copy("./portfolio.css", "./dist/portfolio.css").unwrap();
     fs::copy("./portfolio.js", "./dist/portfolio.js").unwrap();
     for project in &projects {
-        let id = project.id_str;
-        fs::copy(format!("./thumbnails/{id}.png"), format!("./dist/thumbnails/{id}.png")).unwrap();
+        let path = &project.image_link;
+        eprintln!("path = {}", path);
+        fs::copy(format!("{path}"), format!("./dist/{path}")).unwrap();
     }
 }
