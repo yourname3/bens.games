@@ -31,6 +31,7 @@ body {
 .thumbnail-container {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
     align-items: center;
 
     width: 85vw;
@@ -47,6 +48,14 @@ body {
     border-color: #bbb #888;
 
     position: relative;
+    margin-bottom: 3vw;
+}
+
+@media (max-aspect-ratio: 3/2) {
+    .thumbnail {
+        width: 80vw; 
+        height: 60vw;
+    }
 }
 
 .thumbnail::after {
