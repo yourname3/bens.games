@@ -144,6 +144,10 @@ body {
     pointer-events: auto;
 }
 
+.thumbnail-about a {
+    color: #fbf;
+}
+
 a.call, a.call:visited {
     text-decoration: none;
     color: #eee;
