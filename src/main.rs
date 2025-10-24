@@ -109,7 +109,7 @@ fn build_thumbnail(project: &Project) -> PreEscaped<String> {
                     video .thumbnail-video
                         data-src=(link)
                         preload="none"
-                        poster=(project.image_link)
+                        poster="./portfolio/black_square.png"
                         muted
                         loop
                         autoplay
