@@ -34,12 +34,20 @@ fn projects() -> Vec<Project> {
 }
 
 fn build_about(project: &Project) -> PreEscaped<String> {
-    PreEscaped("TODO".to_string())
+    let markdown = fs::read_to_string(format!("./portfolio/{}.md", project.id_str))
+        .unwrap();
+
+    let parser = pulldown_cmark::Parser::new(&markdown);
+
+    let mut html = String::new();
+    pulldown_cmark::html::push_html(&mut html, parser);
+
+    PreEscaped(html)
 }
 
 fn build_thumbnail(project: &Project) -> PreEscaped<String> {
     html! {
-        .thumbnail style=(format!("background-image: url('./thumbnails/{}.png'", project.id_str)) {
+        .thumbnail style=(format!("background-image: url('./thumbnails/{}.png')", project.id_str)) {
             .thumbnail-content {
                 .thumbnail-row {
                     span .title { (project.title) }
