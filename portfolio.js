@@ -10,6 +10,17 @@ document.querySelectorAll('.call.about').forEach(aboutToggle => {
 	const about = thumbnail.querySelector('.thumbnail-about');
 	const bg = thumbnail.querySelector('.thumbnail-about-bg');
 
+	const video = thumbnail.querySelector('.thumbnail-video');
+	if(video) {
+		// Load videos when we first hover over them.
+		thumbnail.addEventListener('mouseenter', (event) => {
+			if(!video.src) {
+				video.src = video.dataset.src;
+				video.load();
+			}
+		});
+	}
+
 	// Nothing to do
 	if(!about || !bg) return;
 
