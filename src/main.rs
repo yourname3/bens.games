@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fs, path::Path, fmt::Write};
+use std::{collections::{HashMap, HashSet}, fmt::Write, fs, path::Path};
 
 use gray_matter::{engine::TOML, Matter, ParsedEntity};
 use maud::{html, PreEscaped};
@@ -139,6 +139,16 @@ fn build_thumbnail(project: &Project) -> PreEscaped<String> {
 }
 
 fn build_portfolio(projects: &Vec<Project>) -> PreEscaped<String> {
+    let mut all_tags = HashSet::new();
+    for project in projects {
+        for tag in &project.front.tags {
+            all_tags.insert(tag.clone());
+        }
+    }
+
+    let mut all_tags: Vec<_> = all_tags.into_iter().collect();
+    all_tags.sort();
+
     html! {
         html {
             head {
@@ -152,6 +162,12 @@ fn build_portfolio(projects: &Vec<Project>) -> PreEscaped<String> {
                     .header {
                         span .title { "benjamin wall" }
                         (markdown("./portfolio/header.md"))
+
+                        .header-taglist {
+                            @for tag in all_tags {
+                                " " span .tag { (tag) }
+                            }
+                        }
                     }
                 }
                 .thumbnail-container {

@@ -28,6 +28,10 @@ body {
     font-size: 2em;
 }
 
+.header-taglist {
+    margin-bottom: 2rem;
+}
+
 .thumbnail-container {
     display: flex;
     justify-content: space-around;
