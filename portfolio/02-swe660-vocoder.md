@@ -1,5 +1,5 @@
 ---
-title = "beaglebone black vocoder"
+title = "BeagleBone Black Vocoder"
 tags = ['c', 'embedded', 'dsp']
 
 [links]
