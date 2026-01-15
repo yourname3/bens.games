@@ -78,10 +78,14 @@ fn projects() -> Vec<Project> {
                 Some(b'0'..b'9') => {},
                 _ => continue,
             }
-            projects.push(parse_project(entry.path()));
+            // Keep the file names for sorting
+            projects.push((file_name, parse_project(entry.path())));
         }
     }
-    projects
+    projects.sort_by(|a, b| a.0.cmp(&b.0));
+
+    // Don't need the file names anymore
+    projects.into_iter().map(|p| p.1).collect()
 }
 
 fn build_thumbnail(project: &Project) -> PreEscaped<String> {
