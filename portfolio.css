@@ -88,15 +88,6 @@ body {
     font-weight: bold;
 }
 
-.tag {
-    /* background-color: #ddd;
-    color: #222; */
-    padding: 0.2em;
-    border-radius: 2em;
-}
-.tag::before { content: "<"; }
-.tag::after  { content: ">"; }
-
 .thumbnail-content {
     padding: 1em;
 
@@ -179,3 +170,25 @@ a.call:hover {
 .call::after  { content: "]"; color: #aaa; }
 a.call:hover::before { color: #eee; }
 a.call:hover::after  { color: #eee; }
+
+.tag {
+    /* background-color: #ddd;
+    color: #222; */
+    padding: 0.2em;
+    border-radius: 2em;
+    text-decoration: none;
+}
+.tag:hover {
+    text-decoration: underline;
+}
+.tag::before { content: "<"; color: #aaa; }
+.tag::after  { content: ">"; color: #aaa; }
+.tag:hover::before { color: #eee; }
+.tag:hover::after  { color: #eee; }
+
+.tag-selected {
+    font-weight: bold;
+}
+.tag-selected:hover {
+    text-decoration: line-through;
+}

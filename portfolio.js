@@ -12,12 +12,26 @@ function thumbnailIsCompatibleWithTags(thumbnail) {
 }
 
 function updateTags() {
+	// Update thumbnails to hide non-tagged ones.
 	document.querySelectorAll('.thumbnail').forEach(thumbnail => {
 		if(thumbnailIsCompatibleWithTags(thumbnail)) {
 			thumbnail.classList.remove('thumbnail-hidden');
 		}
 		else {
 			thumbnail.classList.add('thumbnail-hidden');
+		}
+	});
+
+	// Update tags to be bolded if they are current tags.
+	document.querySelectorAll('.tag').forEach(tag => {
+		// The class name for this tag.
+		const tagName = `tag-${tag.innerHTML}`;
+
+		if(currentTagList.has(tagName)) {
+			tag.classList.add('tag-selected');
+		}
+		else {
+			tag.classList.remove('tag-selected');
 		}
 	});
 }
@@ -36,6 +50,7 @@ document.querySelectorAll('.tag').forEach(tag => {
 	// The class name for this tag.
 	const tagName = `tag-${tag.innerHTML}`;
 
+	// Add event listener for toggling the tag.
 	tag.addEventListener('click', (event) => {
 		event.preventDefault();
 		toggleTag(tagName);
