@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fs, path::Path};
+use std::{collections::HashMap, fs, path::Path, fmt::Write};
 
 use gray_matter::{engine::TOML, Matter, ParsedEntity};
 use maud::{html, PreEscaped};
@@ -90,7 +90,18 @@ fn projects() -> Vec<Project> {
 
 fn build_thumbnail(project: &Project) -> PreEscaped<String> {
     html! {
-        .thumbnail style=(format!("background-image: url('{}')", project.image_link)) {
+        div
+            style=(format!("background-image: url('{}')", project.image_link)) 
+            class=({
+                let mut classes = String::from("thumbnail");
+
+                for tag in &project.front.tags {
+                    write!(classes, " tag-{}", tag).unwrap();
+                }
+
+                classes
+            })
+        {
             .thumbnail-content {
                 .thumbnail-row {
                     span .title { (project.front.title) }

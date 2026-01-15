@@ -1,3 +1,47 @@
+const currentTagList = new Set();
+
+function thumbnailIsCompatibleWithTags(thumbnail) {
+	// A thumbnail must have EVERY tag of the currentTagList to be compatible.
+	for(const tag of currentTagList) {
+		if(!thumbnail.classList.contains(tag)) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+function updateTags() {
+	document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+		if(thumbnailIsCompatibleWithTags(thumbnail)) {
+			thumbnail.classList.remove('thumbnail-hidden');
+		}
+		else {
+			thumbnail.classList.add('thumbnail-hidden');
+		}
+	});
+}
+
+function toggleTag(tagName) {
+	if(currentTagList.has(tagName)) {
+		currentTagList.delete(tagName);
+	}
+	else {
+		currentTagList.add(tagName);
+	}
+	updateTags();
+}
+
+document.querySelectorAll('.tag').forEach(tag => {
+	// The class name for this tag.
+	const tagName = `tag-${tag.innerHTML}`;
+
+	tag.addEventListener('click', (event) => {
+		event.preventDefault();
+		toggleTag(tagName);
+	});
+});
+
 document.querySelectorAll('.call.about').forEach(aboutToggle => {
 	// Because this part of the DOM is static, the ideal thing is
 	// to just capture all the nodes we care about upfront, so

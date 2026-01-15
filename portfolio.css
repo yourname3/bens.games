@@ -49,6 +49,17 @@ body {
 
     position: relative;
     margin-bottom: 3vw;
+
+    transition: all 0.25s ease;
+    opacity: 1;
+}
+
+.thumbnail-hidden {
+    /* width: 0vw;
+    opacity: 0;
+    margin: 0px;
+    flex: 0; */
+    display: none;
 }
 
 @media (max-aspect-ratio: 3/2) {
