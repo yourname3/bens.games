@@ -125,6 +125,9 @@ body {
 }
 
 .thumbnail-row {}
+.thumbnail-row.bottom {
+    padding-top: 0.5em;
+}
 
 .thumbnail-about-bg {
     position: absolute;
@@ -149,6 +152,9 @@ body {
     transition: all 0.5s ease;
 
     pointer-events: none;
+
+    /* this seems to do exactly what we want */
+    overflow-y: scroll;
 }
 
 .thumbnail-about.active {

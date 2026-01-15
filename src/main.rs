@@ -112,7 +112,7 @@ fn build_thumbnail(project: &Project) -> PreEscaped<String> {
                 .thumbnail-about {
                     (project.about_html)
                 }
-                .thumbnail-row {
+                .thumbnail-row .bottom {
                     a .call .about href="#" { "about" }
                     @for (name, url) in &project.front.links {
                         " " a.call href=(url) { (name) }
