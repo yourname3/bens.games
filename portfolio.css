@@ -47,6 +47,7 @@ body {
     width: 40vw;
     height: 30vw;
     background-size: cover;
+    background-position: center;
 
     border: 4px solid;
     border-color: #bbb #888;
