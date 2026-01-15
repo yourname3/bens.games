@@ -128,6 +128,7 @@ fn build_portfolio(projects: &Vec<Project>) -> PreEscaped<String> {
         html {
             head {
                 meta charset="utf-8";
+                meta name="robots" content="noindex, nofollow";
                 title { "Benjamin Wall -- Portfolio" }
                 link rel="stylesheet" type="text/css" href="portfolio.css";
             }
