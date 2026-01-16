@@ -1,6 +1,6 @@
 ---
 title = "ben's beams"
-tags = ['rust', 'wasm', 'gamedev']
+tags = ['rust', 'wasm', 'gamedev', 'graphics']
 
 [links]
 'play' = 'https://some-games-by-bee.itch.io/bens-beams'
