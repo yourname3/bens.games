@@ -3,7 +3,7 @@ title = "FaVOR ISA"
 tags = ['c', 'c++', 'compilers', 'embedded']
 
 [links]
-'source code' = 'https://github.com/yourname3/favor-isa'
+'source code' = 'https://github.com/favor-isa'
 'technical report' = 'https://raw.githubusercontent.com/favor-isa/.github/refs/heads/main/FaVOR%20ISA.pdf'
 ---
 
